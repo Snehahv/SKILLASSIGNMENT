@@ -1,7 +1,8 @@
 SKILL ASSIGNMENT-2
 
 PROGRAM:
-Write an assembly language program in 8051 to generate a 50 ms delay using Timer 0 in Mode 2 (8-bit auto-reload mode) and blink an LED connected to Port 3.0.
+Write an assembly language program in 8086 to calculate the sum of 5 numbers stored sequentially in memory and store the result in a another memory location.
+
 
 APPARATUS REQUIRED:
 
@@ -9,35 +10,41 @@ LAPTOP WITH KEIL SOFTWARE
 
 PROGRAM:
 ```
-ORG 0H         
+DATA SEGMENT
+    NUMBERS DB 10H, 20H, 30H, 40H, 50H  
+    RESULT DW ?                         
+DATA ENDS
 
-MOV P3, #00H    
+CODE SEGMENT
+ASSUME DS:DATA, CS:CODE
 
-MOV TMOD, #02H  
-MOV TH0, #56H
-MOV TL0, #56H   
+START:
+    MOV AX, DATA      
+    MOV DS, AX
 
-SETB TR0        
+    LEA SI, NUMBERS   
+    MOV CX, 05H       
+    XOR AX, AX        
 
-MAIN:
-    MOV R2, #250   
+SUM_LOOP:
+    MOV BL, [SI]      
+    ADD AL, BL        
+    INC SI            
+    LOOP SUM_LOOP     
 
-WAIT_OVERFLOW:
-    JNB TF0, $     
-    CLR TF0        
-    DJNZ R2, WAIT_OVERFLOW 
+    MOV RESULT, AX    
 
-    CPL P3.0       
-    SJMP MAIN      
+    MOV AH, 4CH       
+    INT 21H
 
-END
+CODE ENDS
+END START
 ```
 OUTPUT:
 
-![WhatsApp Image 2025-10-25 at 10 15 58_a73af6f9](https://github.com/user-attachments/assets/281aeb78-22ae-4d3f-b080-a2a773245796)
+<img width="634" height="388" alt="image" src="https://github.com/user-attachments/assets/73cce0a7-3765-4698-8e56-8fe325ebeb7f" />
 
-![WhatsApp Image 2025-10-25 at 10 16 06_584e37bc](https://github.com/user-attachments/assets/102cd50a-4273-4a3c-bffc-0017e119e718)
 
 RESULT:
 
-THUS THE PROGRAM TO FIND THE FACTORIAL OF THE GIVEN NUMBER IS EXECUTED.
+THUS THE PROGRAM TO calculate the sum of 5 numbers stored sequentially in memory and store the result in a another memory location is executed. 
