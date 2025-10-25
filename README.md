@@ -1,7 +1,7 @@
 SKILL ASSIGNMENT-2
 
 PROGRAM:
-Write an assembly language program in 8051 to generate a 50 ms delay using Timer 0 in Mode 2 (8-bit auto-reload mode) and blink an LED connected to Port 3.0.
+Write an assembly language program in 8051 to generate a 2 ms delay using Timer 0 in Mode 1 and toggle an LED connected to Port 2.0.
 
 APPARATUS REQUIRED:
 
@@ -9,35 +9,35 @@ LAPTOP WITH KEIL SOFTWARE
 
 PROGRAM:
 ```
-ORG 0H         
+ORG 0H        
+MOV P2, #00H  
 
-MOV P3, #00H    
+HERE:  
+    
+    MOV TH0, #0F8H   
+    MOV TL0, #030H   
 
-MOV TMOD, #02H  
-MOV TH0, #56H
-MOV TL0, #56H   
 
-SETB TR0        
+    MOV TMOD, #01H   
+    SETB TR0         
 
-MAIN:
-    MOV R2, #250   
+WAIT:  
+    JNB TF0, WAIT    
+    CLR TR0          
+    CLR TF0          
 
-WAIT_OVERFLOW:
-    JNB TF0, $     
-    CLR TF0        
-    DJNZ R2, WAIT_OVERFLOW 
+    CPL P2.0         
 
-    CPL P3.0       
-    SJMP MAIN      
-
+    SJMP HERE
 END
+
 ```
 OUTPUT:
 
-![WhatsApp Image 2025-10-25 at 10 15 58_a73af6f9](https://github.com/user-attachments/assets/281aeb78-22ae-4d3f-b080-a2a773245796)
+![WhatsApp Image 2025-10-25 at 10 03 47_34931c21](https://github.com/user-attachments/assets/74f11fb6-8cb4-4bf6-82f0-3c00a59cb806)
 
-![WhatsApp Image 2025-10-25 at 10 16 06_584e37bc](https://github.com/user-attachments/assets/102cd50a-4273-4a3c-bffc-0017e119e718)
+![WhatsApp Image 2025-10-25 at 10 03 54_b97d0b0c](https://github.com/user-attachments/assets/eed611e8-97a4-42e4-b233-b9f6c4817092)
 
 RESULT:
 
-THUS THE PROGRAM TO FIND THE FACTORIAL OF THE GIVEN NUMBER IS EXECUTED.
+THUS THE PROGRAM generate 2ms delay is executed.
